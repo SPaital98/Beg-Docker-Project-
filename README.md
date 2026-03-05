@@ -46,9 +46,7 @@ docker-nodejs-project/
 
 
 ⚙️ Application Code
-
-# app.js
-
+1️⃣ app.js
 
 const http = require('http');
 
@@ -56,15 +54,15 @@ http.createServer((req, res) => {
   res.write("Hello from Docker Beginner Project 🚀");
   res.end();
 }).listen(3000);
-package.json
+
+2️⃣ package.json
 {
   "name": "docker-demo",
   "version": "1.0.0",
   "main": "app.js"
 }
 
-🐳 Dockerfile
-
+3️⃣ Dockerfile
 FROM node:18
 
 WORKDIR /app
