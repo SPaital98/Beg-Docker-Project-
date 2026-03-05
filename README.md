@@ -1,51 +1,51 @@
-🚀 Dockerized Node.js Application
+🚀 Dockerized Node.js Application Deployment on AWS EC2
 
-A simple **Node.js web application** containerized using **Docker**.  
-This project demonstrates how to package an application into a Docker container and run it locally.
+This project demonstrates how to develop a simple **Node.js web application**, containerize it using **Docker**, and deploy the containerized application on an **AWS EC2 instance**.
 
 🎯 Project Objective
 
-The goal of this project is to:
+The objectives of this project are:
 
-- Create a simple **Node.js application**
+- Develop a simple **Node.js web application**
 - Containerize the application using **Docker**
-- Build a **Docker Image**
-- Run the application inside a **Docker Container**
+- Build a **Docker image**
+- Run the application inside a **Docker container**
+- Deploy the containerized application on **AWS EC2**
 - Access the application through a **web browser**
 
-# 🏗️ Project Architecture
-
+🏗️ Project Architecture
 
 Node.js Application
-↓
-Dockerfile
-↓
-Docker Image
-↓
-Docker Container
-↓
-Browser (Port 3000)
-
+        ↓
+     Dockerfile
+        ↓
+     Docker Image
+        ↓
+    Docker Container
+        ↓
+     AWS EC2 Instance
+        ↓
+Browser (Public IP : 3000)
 
 🛠️ Tools & Technologies
 
 - Node.js
 - Docker
+- AWS EC2
 - VS Code
 - Web Browser
 
 
 📁 Project Structure
 
-
-docker-nodejs-project/
+docker-nodejs-project
 │
 ├── app.js
 ├── package.json
 └── Dockerfile
 
+⚙️ Application Implementation
 
-⚙️ Application Code
 1️⃣ app.js
 
 const http = require('http');
@@ -55,7 +55,10 @@ http.createServer((req, res) => {
   res.end();
 }).listen(3000);
 
+This code creates a simple **HTTP server** that runs on **port 3000**.
+ 
 2️⃣ package.json
+
 {
   "name": "docker-demo",
   "version": "1.0.0",
@@ -63,6 +66,7 @@ http.createServer((req, res) => {
 }
 
 3️⃣ Dockerfile
+
 FROM node:18
 
 WORKDIR /app
@@ -73,23 +77,25 @@ EXPOSE 3000
 
 CMD ["node", "app.js"]
 
+
 🧠 Dockerfile Explanation
 
-Instruction	Description
+| Instruction | Description |
+|-------------|-------------|
+| FROM node:18 | Uses official Node.js base image |
+| WORKDIR /app | Sets working directory inside container |
+| COPY . . | Copies project files into container |
+| EXPOSE 3000 | Specifies the container port |
+| CMD | Runs the Node.js application |
 
-FROM node:18	Uses official Node.js base image
-WORKDIR /app	Sets working directory inside container
-COPY . .	Copies project files into container
-EXPOSE 3000	Documents the container port
-CMD	Runs the Node.js application
 
 🔨 Build Docker Image
 
-Run the following command inside the project folder:
+Navigate to the project directory and run:
 
 docker build -t docker-node-app .
 
-Check the images:
+Check images:
 
 docker images
 
@@ -100,35 +106,75 @@ docker run -d -p 3000:3000 --name my-container docker-node-app
 Check running containers:
 
 docker ps
+☁️ Deploying on AWS EC2
 
-🌐 Access the Application
+## Step 1: Launch EC2 Instance
 
-Open your browser and go to:
+- Go to AWS Console
+- Launch a **Linux EC2 instance**
+- Allow the following ports in **Security Group**
 
-http://localhost:3000
+SSH  → 22
+Custom TCP → 3000
 
-You should see:
+## Step 2: Connect to EC2
+
+ssh -i key.pem ec2-user@<EC2-Public-IP>
+
+
+## Step 3: Install Docker
+
+sudo yum update -y
+sudo yum install docker -y
+sudo systemctl start docker
+sudo systemctl enable docker
+
+## Step 4: Copy or Clone Project
+
+Upload project files or clone repository:
+
+git clone <repository-url>
+cd docker-nodejs-project
+
+## Step 5: Build Docker Image on EC2
+
+docker build -t docker-node-app .
+
+## Step 6: Run Docker Container
+
+docker run -d -p 3000:3000 docker-node-app
+
+# 🌐 Access the Application
+
+Open browser and visit:
+
+http://<EC2-Public-IP>:3000
+
+
+Output:
 
 Hello from Docker Beginner Project 🚀
 
-🛑 Stop and Remove Container
+# 🛑 Manage Container Lifecycle
 
-Stop the container:
+Stop container:
 
-docker stop my-container
+docker stop container_id
 
-Remove the container:
+Remove container:
 
-docker rm my-container
+docker rm container_id
 
-🎯 Project Outcome
+List containers:
 
-Developed a Node.js application
+docker ps
 
-Containerized the application using Docker
 
-Built a Docker image
+# 🎯 Project Outcome
 
-Deployed the application using a Docker container
-
-Accessed the application through a browser
+- Developed a **Node.js web application**
+- Containerized the application using **Docker**
+- Built a **Docker image**
+- Deployed the containerized application on **AWS EC2**
+- Managed container lifecycle using Docker commands
+- Accessed the application via **public EC2 IP**
